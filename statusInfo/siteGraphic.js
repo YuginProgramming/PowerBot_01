@@ -1,0 +1,3 @@
+const graphic = {
+    day: 'Monday'
+}
