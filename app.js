@@ -9,7 +9,7 @@ let chatId;
 
 let ping = require('ping');
 
-const host = ['46.211.84.179'];
+const host = ['94.244.160.5'];
 
 const result = async () => {
   
