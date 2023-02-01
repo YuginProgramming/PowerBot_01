@@ -1,27 +1,22 @@
+import {  } from './config';
+import express, { Express } from 'express';
+import 'dotenv/config';
+import { routes } from './src/router';
+
 // Load priority:
-// db 
+// DB
 
 // pinger
 
-// router-server
+// crawler
 
-
-
-
-import config from './config';
-import express, { Express, Request, Response } from 'express';
-import * as dotenv from "dotenv";
-dotenv.config({ path: __dirname+'/.env' });
-
-// dotenv.config();
-
+// express app
 const app: Express = express();
-const port = process.env.PORT || config.express.PORT;
+const expressPort = process.env.PORT || config.express.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Express + TypeScript Server');
+app.use('/', routes);
+
+app.listen(expressPort, () => {
+    console.log(`⚡️[server]: Server is running at http://localhost:${expressPort}`);
 });
 
-app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
