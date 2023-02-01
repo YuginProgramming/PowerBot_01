@@ -1,5 +1,5 @@
-import { express as expressConfig } from './config';
-import express, { Express } from 'express';
+import * as config from './config';
+import * as express from 'express';
 import 'dotenv/config';
 import { routes } from './src/router';
 
@@ -11,8 +11,8 @@ import { routes } from './src/router';
 // crawler
 
 // express app
-const app: Express = express();
-const expressPort = process.env.PORT || expressConfig.PORT;
+const app = express();
+const expressPort = process.env.PORT || config.express.PORT;
 
 app.use('/', routes);
 
