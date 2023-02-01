@@ -6,7 +6,7 @@ const sequelize = new Sequelize({
     dialect: 'sqlite'
 });
 
-class Status extends Model { }
+class Status extends Model {}
 Status.init({
     channel_id: {
         type: DataTypes.INTEGER,
@@ -14,7 +14,7 @@ Status.init({
         unique: true
     },
     status: {
-        type: DataTypes.ENUM('on', 'off'),
+        type: DataTypes.ENUM(StatusEnum.on, StatusEnum.off),
         allowNull: false
     }
 }, {
@@ -32,7 +32,7 @@ interface StatusFields {
     updatedAt: Date,
 }
 
-const create = async (channelId: number, status: StatusEnum): Promise<StatusFields|undefined> => {
+const createStatus = async (channelId: number, status: StatusEnum): Promise<StatusFields|undefined> => {
     let res;
     try {
         res = await Status.create({ channel_id: channelId, status });
@@ -43,31 +43,46 @@ const create = async (channelId: number, status: StatusEnum): Promise<StatusFiel
     return json;
 };
 
-const findbyId = async (id?: number): Promise<StatusFields|null> => {
+const findStatusById = async (id: number): Promise<StatusFields|null> => {
     const res = await Status.findOne({ where: { id: id } });
     if (res) return res.dataValues;
     return res;
 };
 
-const updateStatus = async (id: number, status: StatusEnum): Promise<boolean> => {
-    const res = await Status.update({ status }, { where: { id: id } });
+interface FindAllTypes { 
+    channel_id?: number, 
+    status?: StatusEnum 
+}
+
+const findAllStatuses = async (params: FindAllTypes): Promise<Array<StatusFields>|undefined> => {
+    const res = await Status.findAll({ 
+        where: { ...params }
+    });
+    if (res.length > 0) return res.map(el => el.dataValues);
+    return;
+};
+
+const updateStatusByChannelId = async (channelId: number, status: StatusEnum): Promise<boolean> => {
+    const res = await Status.update({ status }, { where: { channel_id: channelId } });
     return res[0] ? true : false;
 };
 
-const deletebyId = async (id: number): Promise<boolean> => {
-    const res = await Status.destroy({ where: { id: id } });
+const deleteStatusById = async (id: number): Promise<boolean> => {
+    const res = await Status.destroy({ where: { id } });
     return res ? true : false;
 };
 
-// create(128, StatusEnum.on);
-// findbyId(3)
-updateStatus(126, StatusEnum.on);
-// deletebyId(1)
+createStatus(128, StatusEnum.on);
+findStatusById(3);
+findAllStatuses({ channel_id: 4 });
+updateStatusByChannelId(4, StatusEnum.on);
+deleteStatusById(1);
 
 export {
     Status,
-    create,
-    findbyId,
-    updateStatus,
-    deletebyId
+    createStatus,
+    findStatusById,
+    findAllStatuses,
+    updateStatusByChannelId,
+    deleteStatusById
 };

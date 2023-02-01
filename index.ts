@@ -1,4 +1,4 @@
-import {  } from './config';
+import { express as expressConfig } from './config';
 import express, { Express } from 'express';
 import 'dotenv/config';
 import { routes } from './src/router';
@@ -12,7 +12,7 @@ import { routes } from './src/router';
 
 // express app
 const app: Express = express();
-const expressPort = process.env.PORT || config.express.PORT;
+const expressPort = process.env.PORT || expressConfig.PORT;
 
 app.use('/', routes);
 
