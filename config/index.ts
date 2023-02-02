@@ -4,7 +4,9 @@ const express = {
 
 const crawler = {};
 
-const pinger = {};
+const pinger = {
+    interval: 1000
+};
 
 const models = [
     'channels',
