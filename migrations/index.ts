@@ -1,7 +1,7 @@
 import { StatusEnum } from '../config/enum';
-import { Status, createStatus } from '../model/statuses';
+import { Status, createStatus } from '../models/statuses';
 import { logger } from '../logger';
-import { Log } from '../model/logs';
+import { Log } from '../models/logs';
 
 
 const pseudoRandom = () => Math.floor(Math.random() * 10000);

@@ -4,10 +4,9 @@ import * as config from './config';
 import * as express from 'express';
 import { routes } from './src/router';
 import { logger } from './logger';
-import { sequelize } from './model/sequelize';
+import { sequelize } from './models/sequelize';
 
 const main = async () => {
-
     // DB
     const configTables = config.models.list;
     const dbInterface = sequelize.getQueryInterface();

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Log, LogFields } from "../model/logs";
+import { Log, LogFields } from "../models/logs";
 import { LogLevelsEnum } from "../config/enum";
 import { DateTime } from "luxon";
 
