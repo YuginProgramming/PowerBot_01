@@ -8,12 +8,15 @@ const pinger = {
     interval: 1000
 };
 
-const models = [
-    'channels',
-    'logs',
-    'pingers',
-    'statuses'
-];
+const models = {
+    list:  [
+        // 'channels',
+        'logs',
+        // 'pingers',
+        'statuses'
+    ]
+};
+    
 
 export {
     express,
