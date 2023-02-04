@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import * as config from './config';
 import * as express from 'express';
-import 'dotenv/config';
 import { routes } from './src/router';
+import { logger } from './logger';
 
 // Load priority:
 // DB
@@ -17,6 +18,6 @@ const expressPort = process.env.PORT || config.express.PORT;
 app.use('/', routes);
 
 app.listen(expressPort, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${expressPort}`);
+    logger.info(`Server started at http://localhost:${expressPort}`);
 });
 
