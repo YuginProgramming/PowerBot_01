@@ -33,12 +33,13 @@ const createStatus = async (channelId: number, status: StatusEnum): Promise<Stat
     let res;
     try {
         res = await Status.create({ channel_id: channelId, status });
-        logger.info(`Created status: ${res}`);
+        res = res.dataValues;
+        logger.info(`Created status with id: ${res.id}`);
     } catch (err) {
         logger.error(`Impossible to create status: ${err}`);
     }
-    const json = res?.toJSON();
-    return json;
+    
+    return res;
 };
 
 const findStatusById = async (id: number): Promise<StatusFields|null> => {
