@@ -4,7 +4,8 @@ import { logger } from '../logger';
 import { Log } from '../model/logs';
 
 
-Status.sync().then(() => createStatus(55, StatusEnum.off));
+const pseudoRandom = () => Math.floor(Math.random() * 10000);
+Status.sync().then(() => createStatus(pseudoRandom(), StatusEnum.off));
 
 Log.sync().then(() => logger.info('Log created by migration procedure'));
 
