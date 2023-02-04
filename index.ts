@@ -32,7 +32,7 @@ const main = async () => {
     app.use('/', routes);
     
     app.listen(expressPort, () => {
-        logger.info(`Server started on port ${expressPort}`);
+        logger.info(`Server running on port ${expressPort}`);
     });
 }; 
 
