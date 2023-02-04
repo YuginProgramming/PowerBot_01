@@ -5,8 +5,7 @@ import { LogLevelsEnum } from '../config/enum';
 class Log extends Model {}
 Log.init({
     channel_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.INTEGER
     },
     description: {
         type: DataTypes.STRING,
@@ -31,24 +30,6 @@ interface LogFields {
     createdAt: Date
 }
 
-// 🏂🌠🚩🗽✨🎈🌞⛵🎃🎏🚸
-// const now = DateTime.now().toFormat('yy-MM-dd HH:mm:ss.SSS');
-// console.log(`✨ ${now} [${level}]: ${description}`);
-
-const createNewLog = async (channelId: number, description: string, level: LogLevelsEnum): Promise<LogFields|undefined> => {
-    let res;
-    try {
-        res = await Log.create({ channel_id: channelId, description, level });
-    } catch (err) {
-        // console.log(err)
-    }
-    if (res) {
-
-        return res.dataValues;
-    }
-    return;
-};
-
 const findLogsByLevel = async (level: LogLevelsEnum): Promise<Array<LogFields>|undefined> => {
     const res = await Log.findAll({ where: { level } });
     if (res.length > 0) return res.map(el => el.dataValues);
@@ -61,13 +42,9 @@ const findLogsByDates = async (startDate: Date, endDate: Date): Promise<Array<Lo
     return;
 };
 
-// createNewLog(3, 'ddddd', LogLevelsEnum.warn);
-// findLogsByLevel(LogLevelsEnum.warn)
-// findLogsByDates(new Date('2023-01-01'), new Date('2023-01-31'));
-
 export {
     Log,
-    createNewLog,
+    LogFields,
     findLogsByLevel,
     findLogsByDates
 };

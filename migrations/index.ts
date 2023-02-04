@@ -1,12 +1,12 @@
-import { StatusEnum, LogLevelsEnum } from '../config/enum';
+import { StatusEnum } from '../config/enum';
 import { Status, createStatus } from '../model/statuses';
-import { createNewLog } from '../model/logs';
+import { logger } from '../logger';
 import { Log } from '../model/logs';
-Status.sync();
-createStatus(55, StatusEnum.off);
 
-Log.sync();
-createNewLog(11, 'New record by migration', LogLevelsEnum.info);
+
+Status.sync().then(() => createStatus(55, StatusEnum.off));
+
+Log.sync().then(() => logger.info('Log created by migration procedure'));
 
 // Channel.sync();
 
