@@ -1,10 +1,7 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import { StatusEnum } from '../config/enum';
-
-const sequelize = new Sequelize({
-    storage: __dirname + '/pb.db',
-    dialect: 'sqlite'
-});
+import { sequelize } from './sequelize';
+import { logger } from '../logger';
 
 class Status extends Model {}
 Status.init({
@@ -36,8 +33,9 @@ const createStatus = async (channelId: number, status: StatusEnum): Promise<Stat
     let res;
     try {
         res = await Status.create({ channel_id: channelId, status });
+        logger.info(`Created status: ${res}`);
     } catch (err) {
-        //
+        logger.error(`Impossible to create status: ${err}`);
     }
     const json = res?.toJSON();
     return json;
@@ -64,19 +62,15 @@ const findAllStatuses = async (params: FindAllTypes): Promise<Array<StatusFields
 
 const updateStatusByChannelId = async (channelId: number, status: StatusEnum): Promise<boolean> => {
     const res = await Status.update({ status }, { where: { channel_id: channelId } });
+    if (res[0]) logger.info(`Status updated: ${res}`);
     return res[0] ? true : false;
 };
 
 const deleteStatusById = async (id: number): Promise<boolean> => {
     const res = await Status.destroy({ where: { id } });
+    if (res) logger.info(`Deleted status: ${res}`);
     return res ? true : false;
 };
-
-createStatus(128, StatusEnum.on);
-findStatusById(3);
-findAllStatuses({ channel_id: 4 });
-updateStatusByChannelId(4, StatusEnum.on);
-deleteStatusById(1);
 
 export {
     Status,
