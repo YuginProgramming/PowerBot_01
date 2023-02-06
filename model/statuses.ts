@@ -72,11 +72,11 @@ const deleteStatusById = async (id: number): Promise<boolean> => {
     return res ? true : false;
 };
 
-createStatus(128, StatusEnum.on);
-findStatusById(3);
-findAllStatuses({ channel_id: 4 });
-updateStatusByChannelId(4, StatusEnum.on);
-deleteStatusById(1);
+// createStatus(128, StatusEnum.on);
+// findStatusById(3);
+// findAllStatuses({ channel_id: 4 });
+// updateStatusByChannelId(4, StatusEnum.on);
+// deleteStatusById(1);
 
 export {
     Status,
