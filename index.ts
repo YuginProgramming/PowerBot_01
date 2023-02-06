@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import 'dotenv/config';
-import * as config from './config';
 import * as express from 'express';
+import * as config from './config';
 import { routes } from './src/router';
 import { logger } from './logger';
 import { sequelize } from './models/sequelize';
@@ -16,7 +16,7 @@ const main = async () => {
     const result = checks.every(el => el === true);
     if (!result) {
         console.error(`🚩 Failed to check DB tables, see config.models.list`);
-        throw ('Some DB tables are missing');
+        throw (`Some DB tables are missing`);
     }
     logger.info('DB connected.');
 
