@@ -11,7 +11,7 @@ Status.init({
         unique: true
     },
     status: {
-        type: DataTypes.ENUM(StatusEnum.on, StatusEnum.off),
+        type: DataTypes.ENUM(...Object.values(StatusEnum)),
         allowNull: false
     }
 }, {
