@@ -5,10 +5,10 @@ import { DateTime } from "luxon";
 
 const DEBUG = true;
 
-// 🗽✨🎈🌞⛵🎃🎏🚸
+// 🗽✨🎈🌞⛵🎃🚸
 
 class Logger {
-    now: string;
+    private now: string;
     constructor () {
         this.now = DateTime.now().toFormat('yy-MM-dd HH:mm:ss.SSS');
     }
