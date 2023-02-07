@@ -61,6 +61,14 @@ const findAllStatuses = async (params: FindAllTypes): Promise<Array<StatusFields
     return;
 };
 
+const findAllStatusesByChannelIds = async (idsArray: Array<number>): Promise<Array<StatusFields>|undefined> => {
+    const res = await Status.findAll({ 
+        where: { channel_id: idsArray }
+    });
+    if (res.length > 0) return res.map(el => el.dataValues);
+    return;
+};
+
 const updateStatusByChannelId = async (channelId: number, status: StatusEnum): Promise<boolean> => {
     const res = await Status.update({ status }, { where: { channel_id: channelId } });
     if (res[0]) logger.info(`Status updated: ${res}`);
@@ -78,6 +86,7 @@ export {
     createStatus,
     findStatusById,
     findAllStatuses,
+    findAllStatusesByChannelIds,
     updateStatusByChannelId,
     deleteStatusById
 };
