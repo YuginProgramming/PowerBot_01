@@ -33,10 +33,6 @@ Channel.init({
     tg_id: {
         type: DataTypes.STRING,
         allowNull: true
-    },
-    pinger_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true
     }
 }, {
     freezeTableName: false,
