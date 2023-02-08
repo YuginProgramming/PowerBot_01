@@ -2,19 +2,12 @@ import { Model, DataTypes } from "sequelize";
 import { sequelize } from './sequelize';
 import { logger } from '../logger';
 
-// const sequelize = new Sequelize({
-//     storage: __dirname + '/pb.db',
-//     dialect: 'sqlite'
-// });
-
 interface ChannelData {
     shortname: string,
     longname?: string,
     tg_id: string,
     pinger_id: number,
 }
-
-
 
 interface ChannelValues extends ChannelData {
     id: number,
@@ -65,7 +58,6 @@ const addNewChannel = async (channelData: ChannelData): Promise<ChannelValues|un
 };
 
 interface UpdateParams {
-    id: number,
     pinger_id?: number,
     shortname?: string,
     longname?: string,
@@ -73,16 +65,23 @@ interface UpdateParams {
     active?: boolean,
 }
 
-const updateChannelById = async (updateParams: UpdateParams): Promise<boolean> => {
-    const res = await Channel.update({ ...updateParams } , { where: { id: updateParams.id } });
-    if (res[0]) logger.info(`Channel updated: ${res}`);
-    return res[0] ? true : false;
+const updateChannelById = async (id: number, updateParams: UpdateParams): Promise<ChannelValues|undefined> => {
+    const res = await Channel.update({ ...updateParams } , { where: { id } });
+    if (res[0]) {
+        const data = await findChannelById(id);
+        if (data) {
+            logger.info(`Channel ${data.id} updated`);
+            return data;
+        }
+        logger.info(`Channel ${id} updated, but can't read result data`);
+    } 
+    return undefined;
 };
 
-const deleteChannelById = async (id: number): Promise<boolean> => {
-    const res = await Channel.update({ active: false }, { where: { id: id } });
-    if (res) logger.info(`Deleted channel: ${id}`);
-    return res[0] ? true : false;
+const channelDeactivate = async (id: number): Promise<number|undefined> => {
+    const res = await Channel.update({ active: false }, { where: { id } });
+    if (res) logger.info(`Channel ${id} deactivated`);
+    return res[0] ? id : undefined;
 };
 
 const findChannelsByPingerId = async (pinger_id: number): Promise<Array<ChannelValues>|undefined> => {
@@ -106,9 +105,9 @@ const findChannelById = async (id: number): Promise<ChannelValues|null> => {
 export {
     Channel,
     addNewChannel,
-    deleteChannelById,
+    channelDeactivate,
     findChannelsByPingerId,
     findChannelById,
     updateChannelById,
     findChannelsByStatus
-};
+};   

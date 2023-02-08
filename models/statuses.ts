@@ -61,9 +61,9 @@ const findAllStatuses = async (params: FindAllTypes): Promise<Array<StatusFields
     return;
 };
 
-const findAllStatusesByChannelIds = async (idsArray: Array<number>): Promise<Array<StatusFields>|undefined> => {
+const findAllStatusesByChannelIds = async (ids: Array<number>): Promise<Array<StatusFields>|undefined> => {
     const res = await Status.findAll({ 
-        where: { channel_id: idsArray }
+        where: { channel_id: ids }
     });
     if (res.length > 0) return res.map(el => el.dataValues);
     return;
