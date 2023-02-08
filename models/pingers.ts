@@ -63,7 +63,6 @@ async function deleteIpByPingerId(id: number): Promise<Boolean> {
     }
 };  
 
-
 // addNewIp ('192.168.11.22', 234234)
 // findIpsByChannelId(234234),
 // updateIpByPingerId(2, '192.168.11.22'),
