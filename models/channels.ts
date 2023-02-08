@@ -45,7 +45,7 @@ Channel.init({
     sequelize
 });
 
-const addNewChannel = async (channelData: ChannelData): Promise<ChannelValues|undefined> => {
+const createNewChannel = async (channelData: ChannelData): Promise<ChannelValues|undefined> => {
     let res;
     try {
         res = await Channel.create({ ...channelData });
@@ -104,7 +104,8 @@ const findChannelById = async (id: number): Promise<ChannelValues|null> => {
 
 export {
     Channel,
-    addNewChannel,
+    ChannelData,
+    createNewChannel,
     channelDeactivate,
     findChannelsByPingerId,
     findChannelById,

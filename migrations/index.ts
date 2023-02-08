@@ -1,15 +1,36 @@
 import { StatusEnum } from '../config/enum';
 import { Status, createStatus } from '../models/statuses';
-import { Channel } from '../models/channels';
+import { Channel,  ChannelData, createNewChannel } from '../models/channels';
 import { logger } from '../logger';
 import { Log } from '../models/logs';
 
+const DEBUG = true;
 
-// const pseudoRandom = () => Math.floor(Math.random() * 10000);
-// Status.sync().then(() => createStatus(pseudoRandom(), StatusEnum.off));
+const main = async (): Promise<void> => {
+    try {
+        const syncState = await Promise.all([
+            Status.sync(),
+            Log.sync(),
+            Channel.sync()
+        ]);
+        
+        if (DEBUG && syncState) {
+            const pseudoRandom = () => Math.floor(Math.random() * 10000);
+            const channelData: ChannelData = {
+                pinger_id: pseudoRandom(),
+                shortname: 'migration_record',
+                tg_id: pseudoRandom().toString()
+            };
 
-//Log.sync().then(() => logger.info('Log created by migration procedure'));
+            createStatus(pseudoRandom(), StatusEnum.off);
+            logger.info('Log created by migration procedure');
+            createNewChannel(channelData);
+        }
 
-Channel.sync();
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+    }
+};
 
-// Pinger.sync();
+main();
