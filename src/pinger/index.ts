@@ -1,7 +1,11 @@
-// import * as config from '../../config';
+import * as config from '../../config';
 
-// const pinger = (ips: Array<string>): void => {
-    
-// };
+const pingerFunc = () => {
+    console.log('pinger running...');
+};
 
-// setInterval(() => pinger, config.pinger.interval);
+const pingerSetIntervalId = setInterval(pingerFunc, config.pinger.interval * 1000);
+
+export {
+    pingerSetIntervalId
+};

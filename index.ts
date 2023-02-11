@@ -5,6 +5,7 @@ import * as config from './config';
 import { routes } from './src/router';
 import { logger } from './logger';
 import { sequelize } from './models/sequelize';
+import { pingerSetIntervalId } from './src/pinger';
 
 const main = async () => {
     // DB
@@ -21,6 +22,7 @@ const main = async () => {
     logger.info('DB connected.');
 
     // pinger
+    logger.info(`Pinger SetIntervalId ${pingerSetIntervalId} is running`);
     
     // crawler
     

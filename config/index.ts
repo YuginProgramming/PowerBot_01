@@ -5,7 +5,7 @@ const express = {
 const crawler = {};
 
 const pinger = {
-    interval: 1000
+    interval: 1 // seconds
 };
 
 const models = {
