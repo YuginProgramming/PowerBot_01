@@ -9,6 +9,6 @@ export enum LogLevelsEnum {
     error = 'ERROR'
 }
 
-export enum PingerType {
+export enum PingerTypeEnum {
     ip = 'IP'
 }

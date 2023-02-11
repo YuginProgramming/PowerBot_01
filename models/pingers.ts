@@ -1,12 +1,12 @@
 import { Model, DataTypes } from 'sequelize';
-import { PingerType } from '../config/enum';
+import { PingerTypeEnum } from '../config/enum';
 import { sequelize } from './sequelize';
 import { logger } from '../logger';
 
 class Pinger extends Model {}
 Pinger.init({
     type: {
-        type: DataTypes.ENUM(...Object.values(PingerType)),
+        type: DataTypes.ENUM(...Object.values(PingerTypeEnum)),
         allowNull: false
     },
     channel_id: {
@@ -26,7 +26,7 @@ Pinger.init({
 
 interface PingerFields {
     id: number,
-    type: PingerType,
+    type: PingerTypeEnum,
     channel_id: number,
     value: string
 }
@@ -34,7 +34,7 @@ interface PingerFields {
 const addNewIp = async (value: string, channel_id: number): Promise<PingerFields|undefined> => {
     let res;
     try {
-        res = await Pinger.create({ type: PingerType.ip, value, channel_id });
+        res = await Pinger.create({ type: PingerTypeEnum.ip, value, channel_id });
         res = res.dataValues;
         logger.info(`added new IP to DB with id: ${res.id}`);
     } catch (err) {
@@ -46,26 +46,32 @@ const addNewIp = async (value: string, channel_id: number): Promise<PingerFields
 const findIpsByChannelId = async (channel_id: number): Promise<PingerFields[]|undefined> => {
     let res;
     res = await Pinger.findAll({ 
-        where: { channel_id, type: PingerType.ip } 
+        where: { channel_id, type: PingerTypeEnum.ip } 
     });
     res = res.map(i => i.dataValues);
     logger.info(`Found ${res.length} Values: ${res.map(i => i.value).join(', ')} IP(s) for channel_id: ${channel_id}`);
     return res;
 };
 
-const updateIpByPingerId = async (id: number, value: string): Promise<PingerFields|undefined> => {
-    const [res] = await Pinger.update({ value: value }, { where: { id, type: PingerType.ip } });
-    logger.info(`Successfully updated IP to ${value} for pinger with id: ${id}`);
-    if (res > 0)
-        return;
+const updateIpByPingerId = async (id: number, value: string) : Promise<PingerFields|undefined> => {
+    const res = await Pinger.update({ value: value }, { where: { id, type: PingerTypeEnum.ip } });
+    if (res[0]) {
+        const pinger = await Pinger.findOne({ where: { id } });
+        logger.info(`Updated ip in pinger id ${id}`);
+        return pinger?.dataValues;
+    }
+    return;
 };
 
 async function deleteIpByPingerId (id: number): Promise<boolean> {
     const res = await Pinger.destroy({ where: { id } });
-    if (res) logger.info(`Deleted status: ${res}`);
+    if (res) logger.info(`Deleted ip ${res}`);
     return res ? true : false;
 }
     
+updateIpByPingerId(245, '192.168.1.26');
+
+
 export {
     Pinger,
     addNewIp,

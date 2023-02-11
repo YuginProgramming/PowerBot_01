@@ -1,6 +1,7 @@
 import { StatusEnum } from '../config/enum';
 import { Status, createStatus } from '../models/statuses';
 import { Channel,  ChannelData, createNewChannel } from '../models/channels';
+import { Pinger, addNewIp} from '../models/pingers';
 import { logger } from '../logger';
 import { Log } from '../models/logs';
 
@@ -11,7 +12,8 @@ const main = async (): Promise<void> => {
         const syncState = await Promise.all([
             Status.sync(),
             Log.sync(),
-            Channel.sync()
+            Channel.sync(),
+            Pinger.sync()
         ]);
         
         if (DEBUG && syncState) {
@@ -25,6 +27,7 @@ const main = async (): Promise<void> => {
             createStatus(pseudoRandom(), StatusEnum.off);
             logger.info('Log created by migration procedure');
             createNewChannel(channelData);
+            addNewIp('192.168.1.1', 634234533);
         }
 
     } catch (err) {
