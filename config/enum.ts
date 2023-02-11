@@ -8,3 +8,7 @@ export enum LogLevelsEnum {
     warn = 'WARN',
     error = 'ERROR'
 }
+
+export enum PingerType {
+    ip = 'IP'
+}
