@@ -69,7 +69,7 @@ async function deleteIpByPingerId (id: number): Promise<boolean> {
     return res ? true : false;
 }
     
-updateIpByPingerId(245, '192.168.1.26');
+// updateIpByPingerId(245, '192.168.1.26');
 
 
 export {
