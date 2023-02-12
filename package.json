@@ -19,7 +19,6 @@
   "homepage": "https://github.com/YuginProgramming/PowerBot_01#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
     "luxon": "^3.2.1",
     "sequelize": "^6.28.0",
     "sqlite3": "^5.1.4"
