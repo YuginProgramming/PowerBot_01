@@ -82,6 +82,7 @@ const deleteStatusById = async (id: number): Promise<boolean> => {
 };
 
 export {
+    StatusFields,
     Status,
     createStatus,
     findStatusById,
