@@ -88,5 +88,6 @@ export {
     findAllStatuses,
     findAllStatusesByChannelIds,
     updateStatusByChannelId,
-    deleteStatusById
+    deleteStatusById,
+    StatusFields
 };
