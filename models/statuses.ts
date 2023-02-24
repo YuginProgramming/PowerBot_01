@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { StatusEnum } from '../config/enum';
 import { sequelize } from './sequelize';
 import { logger } from '../logger';
+import { on } from 'events';
 
 class Status extends Model {}
 Status.init({
@@ -38,7 +39,6 @@ const createStatus = async (channelId: number, status: StatusEnum): Promise<Stat
     } catch (err) {
         logger.error(`Impossible to create status: ${err}`);
     }
-    
     return res;
 };
 
@@ -81,6 +81,14 @@ const deleteStatusById = async (id: number): Promise<boolean> => {
     return res ? true : false;
 };
 
+const findAllChannelIdsByStatus = async (status: StatusEnum): Promise<Array<number>|undefined> => {
+    const res = await Status.findAll({ 
+        where: { status }
+    });
+    if (res.length > 0) return res.map(el => el.dataValues.channel_id);
+    return;
+};
+
 export {
     Status,
     createStatus,
@@ -88,5 +96,6 @@ export {
     findAllStatuses,
     findAllStatusesByChannelIds,
     updateStatusByChannelId,
-    deleteStatusById
+    deleteStatusById,
+    findAllChannelIdsByStatus
 };
