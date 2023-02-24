@@ -6,6 +6,9 @@ const pingerFunc = () => {
 
 const pingerSetIntervalId = setInterval(pingerFunc, config.pinger.interval * 1000);
 
+
+
+
 export {
     pingerSetIntervalId
 };

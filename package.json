@@ -20,6 +20,7 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "luxon": "^3.2.1",
+    "ping": "^0.4.2",
     "sequelize": "^6.28.0",
     "sqlite3": "^5.1.4"
   },
